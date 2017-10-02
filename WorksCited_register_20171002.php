@@ -12,8 +12,11 @@ function h($s)
 // 新規追加"register"の投稿があった場合
 if (isset($_POST["register"])){
 
+  //テスト
+  var_dump(Post_AuthorName_family);
+
     //順番を数えて１増やす
-    $lines = file('log1_20170905.txt');
+    $lines = file('WorksCited_log1_20171002.txt');
     $cnt = count($lines);
     $cnt += 1;
 
@@ -28,24 +31,37 @@ if (isset($_POST["register"])){
     $Reg_comment = $_POST['Post_comment'];
     $Reg_time = date("Y/m/d H:i:s");
 
-    //書き込む内容を$newDataに格納する。また一行にまとめる
+    //テスト
+    var_dump($Reg_AuthorName_family);
 
-  $Reg_newDataList = "{番号}" . "<" . $cnt . ">" .
-    "{参考文献リスト}" .  $Reg_AuthorName_family . $Reg_AuthorName_first .". " . $Reg_Year .". " . "『" . $Reg_BookTitle . "』" . $Reg_Page_Start . "-" . $Reg_Page_Fin. ". " . $Reg_Publisher. ". ". "\n";
-  $Reg_newDataText = "{番号}" . "<" . $cnt . ">" .
-  "{文中}" . "[" . $Reg_AuthorName_family . " ". $Reg_Year. ": " . "]". $Reg_Page_Start. "-". $Reg_Page_Fin. "\n";
+    //書き込む内容を$newDataに格納する。また一行にまとめる
+    /*テスト
+    $RegTest = $Reg_AuthorName_family;
+    fwrite($dataFile, $RegTest, "a");*/
+
+
+  $Reg_newDataList = ("{番号}" . "<" . $cnt . ">" ."{参考文献リスト}" .  $Reg_AuthorName_family . $Reg_AuthorName_first .". " . $Reg_Year .". " . "『" . $Reg_BookTitle . "』" . $Reg_Page_Start . "-" . $Reg_Page_Fin. ". " . $Reg_Publisher. ". " . "\n");
+
+    var_dump($Reg_newDataList);
+
+
+  $Reg_newDataText = ("{番号}" . "<" . $cnt . ">" ."{文中}" . "[" . $Reg_AuthorName_family . " ". $Reg_Year. ": " . $Reg_Page_Start. "-". $Reg_Page_Fin.  "]". "\n");
+
+  var_dump($Reg_newDataText);
+
+
 
   //格納した内容をファイルに書き込む
-     fwrite($dataFile, $Reg_newDataList, "a");
-     /*片方なら？
-     fwrite($dataFile, $Reg_newDataText, "a");
-*/
+      $fp = fopen($dataFile, "a");
+     fwrite($fp, $Reg_newDataList);
+     fwrite($fp, $Reg_newDataText);
+     fclose($fp);
    } ?>
 
 <!DOCTYPE html>
 <html lang="ja">
   <head>
-    <<meta charset="UTF-8">
+    <meta charset="UTF-8">
 <title>"参考文献管理"</title>
 </head>
 <body>
